@@ -1,15 +1,15 @@
-function out = func_Tx(x,z2,W)
+function out = func_Ty(y,z2,W)
 
-    N = size(x,1);
     K = size(W,2);
+    N = size(y,1)/K;
        
-    TEMP = zeros(N*K,1);
+    TEMP = zeros(N,1);
     
     nk=0;
     for i=1:N
         for j=1:K
          nk=nk+1;   
-            TEMP(nk) = sqrt(W(i,j))*(x(i)-z2(j));
+            TEMP(i) = TEMP(i)+sqrt(W(i,j))*(y(nk)-z2(j));
         end
     end
 

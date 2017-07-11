@@ -21,15 +21,15 @@ function [x_,z1_,z2_,x_o_,times_] = func_fbpd(fig_file,rblur,N1,N2,tau,omega,gam
     [lx,cx] = size(z1);
     xp = zeros(lx,cx);
     xc = zeros(lx,cx);
-    y = zeros(K,1);
-    yc = y;
+    y = zeros(K*lx*cx,1);
     for l=1:T
         
-        xc = func_gradf(x,z1,z2,as)+reshape(x(:).*(W*y),lx,cx);
+        xc = func_gradf(x,z1,z2,as)+ reshape(func_Ty(y,z2,W),lx,cx); %+reshape(x(:).*(W*y),lx,cx);
         xp = func_P(x-tau.*xc,z2,l_pos,c_pos,pimage);
         if l<T
-            yc = W'*(2.*xp(:)-x(:));
-            y = prox_l12(y+omega*yc, gamma);
+           % yc = func_Tx(2.*xp(:)-x(:),z2(:),W);
+           % y = prox_l12(y+omega.*yc, gamma);
+           y = prox_l12(y+omega.*func_Tx(2.*xp(:)-x(:),z2(:),W), gamma);
         end
     end
     times_ = toc(time);
