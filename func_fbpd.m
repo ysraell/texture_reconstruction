@@ -29,7 +29,7 @@ function [x_,z1_,z2_,x_o_,times_] = func_fbpd(fig_file,rblur,N1,N2,tau,omega,gam
         if l<T
            % yc = func_Tx(2.*xp(:)-x(:),z2(:),W);
            % y = prox_l12(y+omega.*yc, gamma);
-           y = prox_l12(y+omega.*func_Tx(2.*xp(:)-x(:),z2(:),W), gamma);
+           y = prox_l12(y+omega.*func_Tx(2.*xp(:)-x(:),z2(:),W), omega*gamma);
         end
     end
     times_ = toc(time);
